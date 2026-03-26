@@ -1,10 +1,18 @@
 <template>
   <main class="mobile-page px-4 pb-8 pt-4">
-    <section class="relative overflow-hidden rounded-6 bg-linear-to-br from-#278cff to-#7bc8ff px-4 pb-28 pt-5 text-white">
-      <div class="text-sm opacity-85">易宿酒店预订平台</div>
-      <h1 class="mt-2 text-2xl font-800">高效订酒店，价格更透明</h1>
-      <p class="mt-2 max-w-72 text-sm text-white/82">蓝白清爽视觉、紧凑信息编排，围绕出行决策优化搜索和筛选体验。</p>
-      <div class="absolute -right-5 top-4 h-28 w-28 rounded-full bg-white/12 blur-2xl"></div>
+    <section
+      class="relative overflow-hidden rounded-6 px-4 pb-28 pt-5 text-white shadow-card"
+      style="background: linear-gradient(135deg, #0b4db3 0%, #1569e8 52%, #3598ff 100%)"
+    >
+      <div class="text-sm font-500 text-white/78">易宿酒店预订平台</div>
+      <h1 class="mt-2 text-2xl font-800 leading-tight text-white [text-shadow:0_2px_8px_rgba(8,36,92,0.22)]">
+        高效订酒店，价格更透明
+      </h1>
+      <p class="mt-2 max-w-72 text-sm leading-6 text-white/90">
+        蓝白清爽视觉、紧凑信息编排，围绕出行决策优化搜索和筛选体验。
+      </p>
+      <div class="absolute -right-5 top-4 h-28 w-28 rounded-full bg-white/8 blur-2xl"></div>
+      <div class="absolute -left-6 bottom-3 h-20 w-20 rounded-full bg-#8dc4ff/14 blur-2xl"></div>
     </section>
 
     <div class="-mt-20">

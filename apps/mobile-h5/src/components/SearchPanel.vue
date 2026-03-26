@@ -55,7 +55,8 @@
     </div>
 
     <button
-      class="mt-4 h-12 w-full rounded-full bg-linear-to-r from-#2a95ff to-brand-500 text-base font-700 text-white"
+      class="mt-4 h-12 w-full rounded-full text-base font-700 text-white shadow-[0_10px_22px_rgba(21,105,255,0.28)]"
+      style="background: linear-gradient(135deg, #0f6fff 0%, #1677ff 55%, #3293ff 100%)"
       @click="submit"
     >
       查询酒店

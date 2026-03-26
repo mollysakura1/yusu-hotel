@@ -19,7 +19,7 @@
         </el-form-item>
       </el-form>
       <div style="display: flex; justify-content: space-between; color: #5b6b82; font-size: 14px">
-        <span>演示账号：`merchant01 / 123456`、`admin01 / 123456`</span>
+        <span>演示账号：`superadmin / 123456`、`admin01 / 123456`、`merchant01 / 123456`</span>
         <el-button link type="primary" @click="router.push('/register')">去注册</el-button>
       </div>
     </el-card>

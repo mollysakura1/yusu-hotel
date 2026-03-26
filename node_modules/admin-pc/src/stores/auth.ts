@@ -1,10 +1,18 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { User, UserRole } from '@shared/types';
-import { ADMIN_ROLE_MENU } from '@shared/constants';
-import { loginApi, registerApi } from '@/api/auth';
+import type { AdminMenuNode, PermissionKey, User, UserRole } from '@shared/types';
+import { ADMIN_MENU_TREE, ROLE_MENU_ACCESS } from '@shared/constants';
+import { fetchCurrentUserProfile, loginApi, registerApi } from '@/api/auth';
 
 type SafeUser = Omit<User, 'password'>;
+
+const filterMenus = (menus: AdminMenuNode[], allowedKeys: string[]): AdminMenuNode[] =>
+  menus
+    .filter((item) => allowedKeys.includes(item.key))
+    .map((item) => ({
+      ...item,
+      children: item.children ? filterMenus(item.children, allowedKeys) : undefined
+    }));
 
 export const useAuthStore = defineStore('admin-auth', () => {
   const token = ref(localStorage.getItem('easy-stay:token') || '');
@@ -15,7 +23,10 @@ export const useAuthStore = defineStore('admin-auth', () => {
   );
 
   const role = computed<UserRole | ''>(() => user.value?.role || '');
-  const menus = computed(() => (role.value ? ADMIN_ROLE_MENU[role.value] : []));
+  const permissionKeys = computed<PermissionKey[]>(() => user.value?.permissionKeys || []);
+  const menus = computed(() =>
+    role.value ? filterMenus(ADMIN_MENU_TREE, ROLE_MENU_ACCESS[role.value]) : []
+  );
 
   const persist = (data: { token: string; user: SafeUser }) => {
     token.value = data.token;
@@ -31,6 +42,12 @@ export const useAuthStore = defineStore('admin-auth', () => {
     nickname: string;
     role: UserRole;
   }) => persist(await registerApi(payload));
+  const refreshProfile = async () => {
+    if (!token.value) return;
+    const profile = await fetchCurrentUserProfile();
+    user.value = profile;
+    localStorage.setItem('easy-stay:user', JSON.stringify(profile));
+  };
 
   const logout = () => {
     token.value = '';
@@ -39,5 +56,5 @@ export const useAuthStore = defineStore('admin-auth', () => {
     localStorage.removeItem('easy-stay:user');
   };
 
-  return { token, user, role, menus, login, register, logout };
+  return { token, user, role, permissionKeys, menus, login, register, refreshProfile, logout };
 });

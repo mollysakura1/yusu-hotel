@@ -11,9 +11,13 @@ const router = createRouter({
       component: () => import('@/layouts/AdminLayout.vue'),
       children: [
         { path: '', redirect: '/dashboard' },
-        { path: '/dashboard', name: 'dashboard', component: () => import('@/pages/DashboardPage.vue') },
-        { path: '/hotel/edit', name: 'hotel-edit', component: () => import('@/pages/HotelEditPage.vue'), meta: { roles: ['merchant'] } },
-        { path: '/audit', name: 'audit', component: () => import('@/pages/AuditListPage.vue'), meta: { roles: ['admin'] } }
+        { path: '/dashboard', name: 'dashboard', component: () => import('@/pages/DashboardPage.vue'), meta: { roles: ['merchant', 'admin', 'superAdmin'] } },
+        { path: '/hotel/edit', name: 'hotel-edit', component: () => import('@/pages/HotelEditPage.vue'), meta: { roles: ['merchant', 'superAdmin'] } },
+        { path: '/audit', name: 'audit', component: () => import('@/pages/AuditListPage.vue'), meta: { roles: ['admin', 'superAdmin'] } },
+        { path: '/system/users', name: 'system-users', component: () => import('@/pages/SystemUsersPage.vue'), meta: { roles: ['superAdmin'] } },
+        { path: '/system/roles', name: 'system-roles', component: () => import('@/pages/SystemRolesPage.vue'), meta: { roles: ['superAdmin'] } },
+        { path: '/system/menus', name: 'system-menus', component: () => import('@/pages/SystemMenusPage.vue'), meta: { roles: ['superAdmin'] } },
+        { path: '/system/logs', name: 'system-logs', component: () => import('@/pages/SystemLogsPage.vue'), meta: { roles: ['superAdmin'] } }
       ]
     }
   ]

@@ -1,6 +1,15 @@
-export type UserRole = 'merchant' | 'admin';
+export type UserRole = 'merchant' | 'admin' | 'superAdmin';
 export type HotelStatus = 'draft' | 'pending' | 'approved' | 'rejected' | 'offline';
 export type SortType = 'recommended' | 'distance' | 'priceAsc' | 'scoreDesc';
+export type UserStatus = 'enabled' | 'disabled';
+export type PermissionKey =
+  | 'dashboard_view'
+  | 'hotel_edit'
+  | 'audit_manage'
+  | 'user_manage'
+  | 'role_manage'
+  | 'menu_manage'
+  | 'log_manage';
 
 export interface User {
   id: string;
@@ -9,6 +18,37 @@ export interface User {
   role: UserRole;
   hotelIds?: string[];
   nickname: string;
+  status: UserStatus;
+  permissionKeys?: PermissionKey[];
+  createdAt: string;
+}
+
+export interface RolePermissionProfile {
+  id: string;
+  code: UserRole;
+  name: string;
+  description: string;
+  status: UserStatus;
+  permissionKeys: PermissionKey[];
+  menuKeys: string[];
+  createdAt: string;
+}
+
+export interface AdminMenuNode {
+  key: string;
+  label: string;
+  path?: string;
+  children?: AdminMenuNode[];
+}
+
+export interface SystemLog {
+  id: string;
+  operatorId: string;
+  operatorName: string;
+  module: string;
+  action: string;
+  ip: string;
+  detail: string;
   createdAt: string;
 }
 

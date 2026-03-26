@@ -1,1 +1,0 @@
-import{q as e}from"./index-C1zAPMsZ.js";const a=()=>e.get("/merchant/hotels"),l=t=>e.get("/admin/hotels",{params:t}),c=t=>e.get(`/admin/hotels/${t}`),h=t=>e.post("/merchant/hotels",t),n=(t,o)=>e.put(`/merchant/hotels/${t}`,o),i=(t,o)=>e.post(`/admin/hotels/${t}/audit`,o),d=(t,o)=>e.post(`/admin/hotels/${t}/${o}`);export{l as a,c as b,h as c,i as d,a as f,d as t,n as u};

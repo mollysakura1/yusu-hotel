@@ -1,23 +1,85 @@
 import dayjs from 'dayjs';
-import type { AuditRecord, Hotel, User } from '@shared/types';
+import type {
+  AdminMenuNode,
+  AuditRecord,
+  Hotel,
+  RolePermissionProfile,
+  SystemLog,
+  User
+} from '@shared/types';
+import { ADMIN_MENU_TREE } from '@shared/constants';
+
+export const roleProfiles: RolePermissionProfile[] = [
+  {
+    id: 'role-super-admin',
+    code: 'superAdmin',
+    name: '超级管理员',
+    description: '拥有平台全部功能，包括用户、角色、菜单、日志和酒店审核管理权限。',
+    status: 'enabled',
+    permissionKeys: ['dashboard_view', 'hotel_edit', 'audit_manage', 'user_manage', 'role_manage', 'menu_manage', 'log_manage'],
+    menuKeys: ['dashboard', 'hotel-edit', 'audit', 'system', 'system-users', 'system-roles', 'system-menus', 'system-logs'],
+    createdAt: dayjs().subtract(60, 'day').toISOString()
+  },
+  {
+    id: 'role-admin',
+    code: 'admin',
+    name: '管理员',
+    description: '负责酒店审核、上下线和平台业务巡检。',
+    status: 'enabled',
+    permissionKeys: ['dashboard_view', 'audit_manage'],
+    menuKeys: ['dashboard', 'audit'],
+    createdAt: dayjs().subtract(50, 'day').toISOString()
+  },
+  {
+    id: 'role-merchant',
+    code: 'merchant',
+    name: '商家',
+    description: '负责商家端酒店信息维护、提交审核和基础经营查看。',
+    status: 'enabled',
+    permissionKeys: ['dashboard_view', 'hotel_edit'],
+    menuKeys: ['dashboard', 'hotel-edit'],
+    createdAt: dayjs().subtract(45, 'day').toISOString()
+  }
+];
 
 export const users: User[] = [
+  {
+    id: 'u-super-01',
+    username: 'superadmin',
+    password: '123456',
+    nickname: '系统超级管理员',
+    role: 'superAdmin',
+    status: 'enabled',
+    createdAt: dayjs().subtract(35, 'day').toISOString()
+  },
   {
     id: 'u-admin-01',
     username: 'admin01',
     password: '123456',
     nickname: '平台管理员',
     role: 'admin',
+    status: 'enabled',
     createdAt: dayjs().subtract(30, 'day').toISOString()
   },
   {
     id: 'u-merchant-01',
     username: 'merchant01',
     password: '123456',
-    nickname: '陆家嘴商户',
+    nickname: '陆家嘴商家',
     role: 'merchant',
+    status: 'enabled',
     hotelIds: ['hotel-001', 'hotel-003'],
     createdAt: dayjs().subtract(20, 'day').toISOString()
+  },
+  {
+    id: 'u-merchant-02',
+    username: 'merchant02',
+    password: '123456',
+    nickname: '虹桥商家',
+    role: 'merchant',
+    status: 'enabled',
+    hotelIds: ['hotel-002'],
+    createdAt: dayjs().subtract(18, 'day').toISOString()
   }
 ];
 
@@ -207,6 +269,51 @@ export const hotels: Hotel[] = [
 ];
 
 export const auditRecords: AuditRecord[] = [];
+
+export const systemMenus: AdminMenuNode[] = ADMIN_MENU_TREE;
+
+export const systemLogs: SystemLog[] = [
+  {
+    id: 'log-1',
+    operatorId: 'u-super-01',
+    operatorName: '系统超级管理员',
+    module: '用户管理',
+    action: '新增',
+    ip: '192.168.1.10',
+    detail: '新增管理员账号 admin01',
+    createdAt: dayjs().subtract(1, 'hour').format('YYYY-MM-DD HH:mm:ss')
+  },
+  {
+    id: 'log-2',
+    operatorId: 'u-admin-01',
+    operatorName: '平台管理员',
+    module: '酒店审核',
+    action: '审核通过',
+    ip: '192.168.1.12',
+    detail: '审核通过 上海陆家嘴云栖酒店',
+    createdAt: dayjs().subtract(2, 'hour').format('YYYY-MM-DD HH:mm:ss')
+  },
+  {
+    id: 'log-3',
+    operatorId: 'u-super-01',
+    operatorName: '系统超级管理员',
+    module: '角色管理',
+    action: '编辑',
+    ip: '192.168.1.13',
+    detail: '调整管理员角色菜单范围',
+    createdAt: dayjs().subtract(3, 'hour').format('YYYY-MM-DD HH:mm:ss')
+  },
+  {
+    id: 'log-4',
+    operatorId: 'u-merchant-01',
+    operatorName: '陆家嘴商家',
+    module: '酒店管理',
+    action: '编辑',
+    ip: '192.168.1.15',
+    detail: '更新酒店图片与价格',
+    createdAt: dayjs().subtract(4, 'hour').format('YYYY-MM-DD HH:mm:ss')
+  }
+];
 
 export const banners = [
   {
