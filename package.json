@@ -1,0 +1,28 @@
+{
+  "name": "vue3-hotel-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "server/*"
+  ],
+  "scripts": {
+    "dev:mobile": "npm run dev --workspace=apps/mobile-h5",
+    "dev:admin": "npm run dev --workspace=apps/admin-pc",
+    "dev:server": "npm run dev --workspace=server/mock-api",
+    "build": "npm run build --workspace=apps/mobile-h5 && npm run build --workspace=apps/admin-pc && npm run build --workspace=server/mock-api",
+    "lint": "eslint . --ext .ts,.tsx,.vue",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-vue": "^10.0.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
+  }
+}

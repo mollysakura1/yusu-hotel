@@ -1,0 +1,29 @@
+import axios, { type AxiosRequestConfig } from 'axios';
+
+const http = axios.create({
+  baseURL: 'http://localhost:3000/api',
+  timeout: 10000
+});
+
+http.interceptors.request.use((config) => {
+  const token = localStorage.getItem('easy-stay:token');
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
+http.interceptors.response.use(
+  (response) => response.data,
+  (error) => Promise.reject(error?.response?.data || error)
+);
+
+export default {
+  get<T>(url: string, config?: AxiosRequestConfig) {
+    return http.get<any, T>(url, config);
+  },
+  post<T>(url: string, data?: unknown, config?: AxiosRequestConfig) {
+    return http.post<any, T>(url, data, config);
+  },
+  put<T>(url: string, data?: unknown, config?: AxiosRequestConfig) {
+    return http.put<any, T>(url, data, config);
+  }
+};
