@@ -1,1 +1,0 @@
-const e=["亲子优选","豪华高星","免费停车","近地铁","含早餐","可取消"],a=[{label:"推荐优先",value:"recommended"},{label:"距离优先",value:"distance"},{label:"价格升序",value:"priceAsc"},{label:"评分优先",value:"scoreDesc"}];export{e as H,a};

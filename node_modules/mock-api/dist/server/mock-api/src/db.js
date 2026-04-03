@@ -116,6 +116,54 @@ const roomTemplate = (hotelId) => [
         stock: 2
     }
 ];
+const createCityHotel = ({ id, city, district, businessArea, address, nameCn, nameEn, star, score, priceStart, distanceToMetro, recommendedText }) => ({
+    id,
+    nameCn,
+    nameEn,
+    city,
+    district,
+    address,
+    star,
+    score,
+    reviewCount: 1200 + Number(id.replace(/\D/g, '').slice(-2) || '1') * 20,
+    openYear: 2020,
+    tags: ['近地铁', '含早餐', '高性价比'],
+    facilities: [
+        { id: `${id}-f1`, name: '免费停车', group: 'basic' },
+        { id: `${id}-f2`, name: '健身房', group: 'recreation' },
+        { id: `${id}-f3`, name: '洗衣房', group: 'service' }
+    ],
+    bannerImages: [
+        'https://images.unsplash.com/photo-1566073771259-6a8506099945',
+        'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa'
+    ],
+    coverImage: 'https://images.unsplash.com/photo-1566073771259-6a8506099945',
+    roomTypes: roomTemplate(id).map((room, index) => ({
+        ...room,
+        price: priceStart + index * 80,
+        originalPrice: priceStart + index * 80 + 120
+    })),
+    priceStart,
+    promotions: [{ id: `${id}-p1`, title: '限时优惠', tag: '促销', discountText: '提前预订享 9 折' }],
+    trafficInfo: [`${distanceToMetro}，出行便捷`, `距${businessArea}核心区域约 10 分钟车程`],
+    nearbySpots: [businessArea, `${city}地标商圈`, `${city}热门景点`],
+    policies: {
+        checkInTime: '14:00后',
+        checkOutTime: '12:00前',
+        breakfast: '自助早餐 7:00-10:00',
+        cancellation: '部分房型支持免费取消',
+        children: '欢迎携带儿童入住',
+        pets: '不可携带宠物'
+    },
+    reviewSummary: { score, reviewCount: 1200, highlights: ['位置方便', '服务稳定', '性价比高'] },
+    businessArea,
+    distanceToMetro,
+    recommendedText,
+    status: 'approved',
+    merchantId: 'u-merchant-02',
+    createdAt: dayjs().subtract(7, 'day').toISOString(),
+    updatedAt: dayjs().toISOString()
+});
 export const hotels = [
     {
         id: 'hotel-001',
@@ -255,6 +303,267 @@ export const hotels = [
         updatedAt: dayjs().toISOString()
     }
 ];
+hotels.push(createCityHotel({
+    id: 'hotel-101',
+    city: '杭州',
+    district: '上城区',
+    businessArea: '西湖湖滨商圈',
+    address: '杭州市上城区延安路 188 号',
+    nameCn: '杭州湖滨云舍酒店',
+    nameEn: 'Yunshe Hotel Hangzhou West Lake',
+    star: 4,
+    score: 4.7,
+    priceStart: 498,
+    distanceToMetro: '距地铁 280m',
+    recommendedText: '西湖出行便捷，适合周末短住'
+}), createCityHotel({
+    id: 'hotel-102',
+    city: '杭州',
+    district: '西湖区',
+    businessArea: '黄龙商圈',
+    address: '杭州市西湖区学院路 66 号',
+    nameCn: '杭州黄龙雅致酒店',
+    nameEn: 'Elegance Hotel Hangzhou Huanglong',
+    star: 5,
+    score: 4.8,
+    priceStart: 628,
+    distanceToMetro: '距地铁 360m',
+    recommendedText: '商旅与休闲兼顾，口碑稳定'
+}), createCityHotel({
+    id: 'hotel-103',
+    city: '北京',
+    district: '朝阳区',
+    businessArea: '国贸商圈',
+    address: '北京市朝阳区建国路 89 号',
+    nameCn: '北京国贸云廷酒店',
+    nameEn: 'Yunting Hotel Beijing Guomao',
+    star: 5,
+    score: 4.8,
+    priceStart: 758,
+    distanceToMetro: '距地铁 220m',
+    recommendedText: '核心商圈高效率出行，商务优选'
+}), createCityHotel({
+    id: 'hotel-104',
+    city: '北京',
+    district: '东城区',
+    businessArea: '王府井商圈',
+    address: '北京市东城区东安门大街 128 号',
+    nameCn: '北京王府井臻选酒店',
+    nameEn: 'Select Hotel Beijing Wangfujing',
+    star: 4,
+    score: 4.6,
+    priceStart: 688,
+    distanceToMetro: '距地铁 340m',
+    recommendedText: '景点与商圈兼顾，逛街方便'
+}), createCityHotel({
+    id: 'hotel-105',
+    city: '广州',
+    district: '天河区',
+    businessArea: '珠江新城',
+    address: '广州市天河区花城大道 108 号',
+    nameCn: '广州珠江新城悦程酒店',
+    nameEn: 'Yuecheng Hotel Guangzhou Zhujiang New Town',
+    star: 5,
+    score: 4.7,
+    priceStart: 598,
+    distanceToMetro: '距地铁 260m',
+    recommendedText: '天河核心地段，差旅高效'
+}), createCityHotel({
+    id: 'hotel-106',
+    city: '广州',
+    district: '越秀区',
+    businessArea: '北京路商圈',
+    address: '广州市越秀区中山五路 166 号',
+    nameCn: '广州北京路轻奢酒店',
+    nameEn: 'Boutique Hotel Guangzhou Beijing Road',
+    star: 4,
+    score: 4.6,
+    priceStart: 468,
+    distanceToMetro: '距地铁 310m',
+    recommendedText: '逛街觅食方便，性价比高'
+}), createCityHotel({
+    id: 'hotel-107',
+    city: '深圳',
+    district: '福田区',
+    businessArea: '会展中心商圈',
+    address: '深圳市福田区福华三路 88 号',
+    nameCn: '深圳会展中心嘉誉酒店',
+    nameEn: 'Jiayu Hotel Shenzhen Convention Center',
+    star: 5,
+    score: 4.8,
+    priceStart: 628,
+    distanceToMetro: '距地铁 190m',
+    recommendedText: '展会差旅友好，交通转换快'
+}), createCityHotel({
+    id: 'hotel-108',
+    city: '深圳',
+    district: '南山区',
+    businessArea: '科技园商圈',
+    address: '深圳市南山区科苑路 99 号',
+    nameCn: '深圳科技园智选酒店',
+    nameEn: 'Smart Hotel Shenzhen Science Park',
+    star: 4,
+    score: 4.7,
+    priceStart: 538,
+    distanceToMetro: '距地铁 280m',
+    recommendedText: '商务出差高频选择，配套成熟'
+}), createCityHotel({
+    id: 'hotel-109',
+    city: '成都',
+    district: '锦江区',
+    businessArea: '春熙路商圈',
+    address: '成都市锦江区红星路 3 段 58 号',
+    nameCn: '成都春熙路澜景酒店',
+    nameEn: 'Lanjing Hotel Chengdu Chunxi Road',
+    star: 4,
+    score: 4.7,
+    priceStart: 458,
+    distanceToMetro: '距地铁 230m',
+    recommendedText: '逛街美食都方便，适合首次到访'
+}), createCityHotel({
+    id: 'hotel-110',
+    city: '成都',
+    district: '武侯区',
+    businessArea: '金融城商圈',
+    address: '成都市武侯区交子大道 128 号',
+    nameCn: '成都金融城雅宿酒店',
+    nameEn: 'Yasu Hotel Chengdu Financial City',
+    star: 5,
+    score: 4.8,
+    priceStart: 568,
+    distanceToMetro: '距地铁 330m',
+    recommendedText: '新城商务区，房型舒适度高'
+}), createCityHotel({
+    id: 'hotel-111',
+    city: '天津',
+    district: '和平区',
+    businessArea: '滨江道商圈',
+    address: '天津市和平区南京路 199 号',
+    nameCn: '天津滨江道精选酒店',
+    nameEn: 'Select Hotel Tianjin Binjiangdao',
+    star: 4,
+    score: 4.5,
+    priceStart: 428,
+    distanceToMetro: '距地铁 280m',
+    recommendedText: '中心城区出行方便，预算友好'
+}), createCityHotel({
+    id: 'hotel-112',
+    city: '天津',
+    district: '河西区',
+    businessArea: '梅江会展商圈',
+    address: '天津市河西区友谊南路 66 号',
+    nameCn: '天津梅江会展酒店',
+    nameEn: 'Convention Hotel Tianjin Meijiang',
+    star: 5,
+    score: 4.7,
+    priceStart: 558,
+    distanceToMetro: '距地铁 390m',
+    recommendedText: '会展配套完善，适合差旅会议'
+}), createCityHotel({
+    id: 'hotel-113',
+    city: '南京',
+    district: '玄武区',
+    businessArea: '新街口商圈',
+    address: '南京市玄武区中山东路 188 号',
+    nameCn: '南京新街口星澜酒店',
+    nameEn: 'Xinglan Hotel Nanjing Xinjiekou',
+    star: 5,
+    score: 4.8,
+    priceStart: 538,
+    distanceToMetro: '距地铁 180m',
+    recommendedText: '核心商圈地铁直达，购物方便'
+}), createCityHotel({
+    id: 'hotel-114',
+    city: '南京',
+    district: '建邺区',
+    businessArea: '河西商圈',
+    address: '南京市建邺区江东中路 88 号',
+    nameCn: '南京河西雅致酒店',
+    nameEn: 'Elegance Hotel Nanjing Hexi',
+    star: 4,
+    score: 4.6,
+    priceStart: 488,
+    distanceToMetro: '距地铁 320m',
+    recommendedText: '新城区域配套成熟，适合商旅'
+}), createCityHotel({
+    id: 'hotel-115',
+    city: '苏州',
+    district: '姑苏区',
+    businessArea: '观前街商圈',
+    address: '苏州市姑苏区人民路 166 号',
+    nameCn: '苏州观前街臻享酒店',
+    nameEn: 'Zhenxiang Hotel Suzhou Guanqian Street',
+    star: 4,
+    score: 4.7,
+    priceStart: 438,
+    distanceToMetro: '距地铁 260m',
+    recommendedText: '古城游玩方便，生活氛围浓'
+}), createCityHotel({
+    id: 'hotel-116',
+    city: '苏州',
+    district: '工业园区',
+    businessArea: '金鸡湖商圈',
+    address: '苏州市工业园区现代大道 99 号',
+    nameCn: '苏州金鸡湖景观酒店',
+    nameEn: 'Lakeview Hotel Suzhou Jinji Lake',
+    star: 5,
+    score: 4.8,
+    priceStart: 598,
+    distanceToMetro: '距地铁 340m',
+    recommendedText: '湖景资源优，适合休闲和商务'
+}), createCityHotel({
+    id: 'hotel-117',
+    city: '武汉',
+    district: '江汉区',
+    businessArea: '江汉路商圈',
+    address: '武汉市江汉区解放大道 188 号',
+    nameCn: '武汉江汉路悦享酒店',
+    nameEn: 'Yuexiang Hotel Wuhan Jianghan Road',
+    star: 4,
+    score: 4.6,
+    priceStart: 428,
+    distanceToMetro: '距地铁 240m',
+    recommendedText: '老牌商圈，逛街和通勤都方便'
+}), createCityHotel({
+    id: 'hotel-118',
+    city: '武汉',
+    district: '武昌区',
+    businessArea: '楚河汉街商圈',
+    address: '武汉市武昌区中北路 88 号',
+    nameCn: '武汉汉街星悦酒店',
+    nameEn: 'Xingyue Hotel Wuhan Han Street',
+    star: 5,
+    score: 4.7,
+    priceStart: 538,
+    distanceToMetro: '距地铁 350m',
+    recommendedText: '景点与商圈兼顾，房型新'
+}), createCityHotel({
+    id: 'hotel-119',
+    city: '西安',
+    district: '碑林区',
+    businessArea: '钟楼商圈',
+    address: '西安市碑林区东大街 88 号',
+    nameCn: '西安钟楼雅宿酒店',
+    nameEn: 'Yasu Hotel Xi an Bell Tower',
+    star: 4,
+    score: 4.7,
+    priceStart: 398,
+    distanceToMetro: '距地铁 260m',
+    recommendedText: '古城核心区域，游玩路线顺'
+}), createCityHotel({
+    id: 'hotel-120',
+    city: '西安',
+    district: '雁塔区',
+    businessArea: '小寨商圈',
+    address: '西安市雁塔区长安中路 166 号',
+    nameCn: '西安小寨都会酒店',
+    nameEn: 'Metropolis Hotel Xi an Xiaozhai',
+    star: 5,
+    score: 4.8,
+    priceStart: 518,
+    distanceToMetro: '距地铁 210m',
+    recommendedText: '商圈活跃，生活配套齐全'
+}));
 export const auditRecords = [];
 export const systemMenus = ADMIN_MENU_TREE;
 export const systemLogs = [

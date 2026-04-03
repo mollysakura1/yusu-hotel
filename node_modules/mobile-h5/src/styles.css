@@ -31,3 +31,50 @@ body {
 .safe-bottom {
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
 }
+
+body.theme-dark {
+  color: #e5edf8;
+  background:
+    radial-gradient(circle at top, rgba(68, 127, 255, 0.12), transparent 24%),
+    linear-gradient(180deg, #09111f 0%, #101a2c 35%, #121a29 100%);
+}
+
+body.theme-dark .mobile-page {
+  background: linear-gradient(180deg, rgba(11, 19, 34, 0.96) 0%, #111b2c 100%);
+}
+
+body.theme-dark .bg-white,
+body.theme-dark .bg-white\/96,
+body.theme-dark .bg-white\/95,
+body.theme-dark .bg-white\/94,
+body.theme-dark .bg-white\/92 {
+  background-color: #172235 !important;
+}
+
+body.theme-dark .bg-slate-50,
+body.theme-dark .bg-slate-100 {
+  background-color: #1d2b41 !important;
+}
+
+body.theme-dark .text-slate-900 {
+  color: #f3f7fc !important;
+}
+
+body.theme-dark .text-slate-700,
+body.theme-dark .text-slate-600 {
+  color: #d4deec !important;
+}
+
+body.theme-dark .text-slate-500,
+body.theme-dark .text-slate-400 {
+  color: #90a2bb !important;
+}
+
+body.theme-dark .border-slate-100,
+body.theme-dark .border-slate-200 {
+  border-color: rgba(146, 170, 199, 0.16) !important;
+}
+
+body.theme-dark .shadow-card {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35) !important;
+}

@@ -3,9 +3,10 @@
     <div class="mb-4 flex items-center justify-between">
       <div>
         <div class="text-xs text-slate-400">当前城市</div>
-        <button class="mt-1 flex items-center gap-1 text-sm font-700 text-slate-900">
+        <button class="mt-1 flex items-center gap-1 text-sm font-700 text-slate-900" @click="goCitySelect">
           <span class="i-carbon-location text-brand-500"></span>
           {{ form.city }}
+          <span class="i-carbon-chevron-right text-slate-400"></span>
         </button>
       </div>
       <div class="rounded-full bg-brand-50 px-3 py-1 text-xs text-brand-500">模拟定位中</div>
@@ -135,5 +136,10 @@ const submit = () => {
       sortBy: form.sortBy
     }
   });
+};
+
+const goCitySelect = () => {
+  searchStore.searchForm = { ...searchStore.searchForm, ...form };
+  router.push({ name: 'city-select' });
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <main class="mobile-page px-4 pb-8 pt-4">
+  <main class="mobile-page px-4 pb-26 pt-4">
     <section
       class="relative overflow-hidden rounded-6 px-4 pb-28 pt-5 text-white shadow-card"
       style="background: linear-gradient(135deg, #0b4db3 0%, #1569e8 52%, #3598ff 100%)"
@@ -78,6 +78,7 @@
       </div>
     </section>
   </main>
+  <MobileBottomNav />
 </template>
 
 <script setup lang="ts">
@@ -85,6 +86,7 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { fetchBanners, type BannerItem } from '@/api/hotel';
 import SearchPanel from '@/components/SearchPanel.vue';
+import MobileBottomNav from '@/components/MobileBottomNav.vue';
 import { useSearchStore } from '@/stores/search';
 import { useBrowseStore } from '@/stores/browse';
 
