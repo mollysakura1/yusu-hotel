@@ -155,6 +155,26 @@ app.get('/api/hotels/:id', (req, res) => {
   res.json(hotel);
 });
 
+app.post('/api/hotels/:id/book', (req, res) => {
+  const hotel = hotels.find((item) => item.id === req.params.id);
+  if (!hotel) return res.status(404).json({ message: '酒店不存在' });
+  if (!isVisibleForMobile(hotel)) return res.status(400).json({ message: '当前酒店暂不可预订' });
+
+  const room = hotel.roomTypes.find((item) => item.id === req.body.roomId);
+  if (!room) return res.status(404).json({ message: '房型不存在' });
+
+  const roomCount = Math.max(1, Number(req.body.roomCount || 1));
+  if (room.stock < roomCount) {
+    return res.status(400).json({ message: '库存不足，请选择其他房型' });
+  }
+
+  room.stock -= roomCount;
+  hotel.updatedAt = dayjs().toISOString();
+  const availableRooms = hotel.roomTypes.filter((item) => item.stock > 0);
+  if (availableRooms.length) hotel.priceStart = Math.min(...availableRooms.map((item) => item.price));
+  res.json(hotel);
+});
+
 app.use('/api/merchant', authMiddleware, requireRoles(['merchant', 'superAdmin']));
 app.use('/api/admin', authMiddleware, requireRoles(['admin', 'superAdmin']));
 app.use('/api/system', authMiddleware, requireRoles(['superAdmin']));

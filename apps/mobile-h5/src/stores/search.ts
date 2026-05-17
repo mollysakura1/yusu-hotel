@@ -12,20 +12,21 @@ export const useSearchStore = defineStore('mobile-search', () => {
     keyword: '',
     checkIn: dayjs().format('YYYY-MM-DD'),
     checkOut: dayjs().add(1, 'day').format('YYYY-MM-DD'),
+    roomCount: 1,
+    adultCount: 1,
+    childCount: 0,
     tags: [],
     sortBy: 'recommended',
     page: 1,
     pageSize: 10
   });
+
   const searchHistory = ref<string[]>(JSON.parse(localStorage.getItem(SEARCH_HISTORY_KEY) || '[]'));
   const nights = computed(() => calcNights(searchForm.value.checkIn, searchForm.value.checkOut));
 
   const saveKeywordHistory = (keyword: string) => {
     if (!keyword) return;
-    searchHistory.value = [keyword, ...searchHistory.value.filter((item) => item !== keyword)].slice(
-      0,
-      8
-    );
+    searchHistory.value = [keyword, ...searchHistory.value.filter((item) => item !== keyword)].slice(0, 8);
     localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(searchHistory.value));
   };
 

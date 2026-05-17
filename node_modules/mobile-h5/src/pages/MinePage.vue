@@ -1,7 +1,7 @@
 <template>
-  <main class="mobile-page pb-26">
+  <main class="mobile-page pb-26 lg:pb-8">
     <section
-      class="relative overflow-hidden px-4 pb-8 pt-5 text-white"
+      class="relative overflow-hidden px-4 pb-8 pt-5 text-white md:px-6 lg:px-8"
       style="background: linear-gradient(180deg, #0f62da 0%, #5ea9ff 100%)"
     >
       <div class="flex items-start justify-between">
@@ -19,9 +19,9 @@
       </div>
     </section>
 
-    <section class="-mt-4 px-4">
+    <section class="-mt-4 px-4 md:px-6 lg:px-8">
       <div class="rounded-6 bg-white p-4 shadow-card">
-        <div class="grid grid-cols-4 gap-3 text-center">
+        <div class="grid grid-cols-4 gap-3 text-center md:gap-4">
           <div>
             <div class="text-lg font-800 text-slate-900">{{ favoriteCount }}</div>
             <div class="mt-1 text-xs text-slate-500">收藏</div>
@@ -43,7 +43,7 @@
 
       <div class="mt-4 rounded-6 bg-white p-4 shadow-card">
         <div class="mb-3 text-base font-700 text-slate-900">常用功能</div>
-        <div class="grid grid-cols-4 gap-y-4 text-center">
+        <div class="grid grid-cols-4 gap-y-4 text-center md:grid-cols-6 lg:grid-cols-8">
           <button v-for="item in quickActions" :key="item.label" class="flex flex-col items-center gap-2" @click="item.onClick">
             <div class="h-10 w-10 flex items-center justify-center rounded-full bg-brand-50 text-brand-500">
               <span :class="[item.icon, 'text-lg']"></span>

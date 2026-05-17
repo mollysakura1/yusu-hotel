@@ -203,6 +203,79 @@ const createCityHotel = ({
   updatedAt: dayjs().toISOString()
 });
 
+const createShanghaiHotelSeries = (): Hotel[] => {
+  const districts = [
+    { district: '浦东新区', businessArea: '陆家嘴金融区', prefix: '云栖', basePrice: 588, distance: 220 },
+    { district: '黄浦区', businessArea: '外滩商圈', prefix: '澜庭', basePrice: 668, distance: 260 },
+    { district: '静安区', businessArea: '南京西路', prefix: '泊宁', basePrice: 528, distance: 180 },
+    { district: '徐汇区', businessArea: '徐家汇', prefix: '和颂', basePrice: 498, distance: 240 },
+    { district: '长宁区', businessArea: '中山公园', prefix: '悦程', basePrice: 458, distance: 300 },
+    { district: '虹口区', businessArea: '北外滩', prefix: '泊澜', basePrice: 548, distance: 210 }
+  ];
+  const suffixes = ['酒店', '轻居酒店', '精选酒店', '悦宿酒店', '云端酒店', '雅致酒店', '智选酒店', '景观酒店'];
+  const tagsByArea = [
+    ['近地铁', '含早餐', '高性价比'],
+    ['近地铁', '可取消', '夜景推荐'],
+    ['商务出行', '含早餐', '交通便捷'],
+    ['亲子友好', '近商圈', '高评分'],
+    ['免费停车', '近地铁', '商务出行'],
+    ['近地铁', '城市景观', '含早餐']
+  ];
+
+  return Array.from({ length: 72 }, (_, index) => {
+    const seed = index + 1;
+    const area = districts[index % districts.length];
+    const suffix = suffixes[index % suffixes.length];
+    const tags = tagsByArea[index % tagsByArea.length];
+    const star = index % 4 === 0 ? 5 : 4;
+    const score = Number((4.5 + (index % 5) * 0.1).toFixed(1));
+    const priceStart = area.basePrice + (index % 7) * 36;
+    const hotelId = `hotel-sh-${String(seed).padStart(3, '0')}`;
+
+    return {
+      ...createCityHotel({
+        id: hotelId,
+        city: '上海',
+        district: area.district,
+        businessArea: area.businessArea,
+        address: `上海市${area.district}${area.businessArea}${88 + seed}号`,
+        nameCn: `上海${area.businessArea}${area.prefix}${seed}${suffix}`,
+        nameEn: `Shanghai ${area.businessArea} ${area.prefix} ${seed}`,
+        star,
+        score,
+        priceStart,
+        distanceToMetro: `距地铁${area.distance + (index % 6) * 55}m`,
+        recommendedText: `${area.businessArea}出行便捷，适合商旅与周末短住`
+      }),
+      tags,
+      reviewCount: 1600 + seed * 37,
+      openYear: 2018 + (index % 7),
+      merchantId: index % 2 === 0 ? 'u-merchant-01' : 'u-merchant-02',
+      roomTypes: roomTemplate(hotelId).map((room, roomIndex) => ({
+        ...room,
+        price: priceStart + roomIndex * 90,
+        originalPrice: priceStart + roomIndex * 90 + 140,
+        stock: 3 + ((seed + roomIndex) % 6)
+      })),
+      facilities: [
+        { id: `${hotelId}-f1`, name: '免费停车', group: 'basic' },
+        { id: `${hotelId}-f2`, name: '健身房', group: 'recreation' },
+        { id: `${hotelId}-f3`, name: '洗衣房', group: 'service' },
+        { id: `${hotelId}-f4`, name: '行李寄存', group: 'service' }
+      ],
+      promotions: [
+        {
+          id: `${hotelId}-p1`,
+          title: '限时连住优惠',
+          tag: '促销',
+          discountText: `连住${2 + (index % 2)}晚享${92 + (index % 5)}折`
+        }
+      ],
+      nearbySpots: [area.businessArea, '上海地标商圈', '热门打卡点']
+    };
+  });
+};
+
 export const hotels: Hotel[] = [
   {
     id: 'hotel-001',
@@ -626,6 +699,8 @@ hotels.push(
   })
 );
 
+hotels.push(...createShanghaiHotelSeries());
+
 export const auditRecords: AuditRecord[] = [];
 
 export const systemMenus: AdminMenuNode[] = ADMIN_MENU_TREE;
@@ -687,5 +762,19 @@ export const banners = [
     title: '外滩夜景周末游',
     subtitle: '高星景观房，适合纪念日和短住',
     image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb'
+  },
+  {
+    id: 'banner-3',
+    hotelId: 'hotel-002',
+    title: '虹桥商务出行优选',
+    subtitle: '近高铁与会展中心，出差住宿更高效',
+    image: 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c'
+  },
+  {
+    id: 'banner-4',
+    hotelId: 'hotel-101',
+    title: '西湖湖滨轻度假',
+    subtitle: '步行探访西湖，周末短住更放松',
+    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee'
   }
 ];

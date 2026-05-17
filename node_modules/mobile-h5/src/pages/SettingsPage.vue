@@ -1,7 +1,7 @@
 <template>
   <main class="mobile-page min-h-screen">
     <MobileTopBar title="设置" />
-    <section class="px-4 pt-4">
+    <section class="px-4 pt-4 md:px-6 lg:px-8">
       <div class="rounded-6 bg-white p-4 shadow-card">
         <div class="flex items-center justify-between border-b border-slate-100 pb-4">
           <div>

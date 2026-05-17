@@ -13,5 +13,8 @@ http.interceptors.response.use(
 export default {
   get<T>(url: string, config?: AxiosRequestConfig) {
     return http.get<any, T>(url, config);
+  },
+  post<T>(url: string, data?: unknown, config?: AxiosRequestConfig) {
+    return http.post<any, T>(url, data, config);
   }
 };

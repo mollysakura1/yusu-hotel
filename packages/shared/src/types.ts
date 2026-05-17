@@ -145,6 +145,9 @@ export interface SearchQuery {
   keyword: string;
   checkIn: string;
   checkOut: string;
+  roomCount?: number;
+  adultCount?: number;
+  childCount?: number;
   starList?: number[];
   minPrice?: number;
   maxPrice?: number;
@@ -179,4 +182,11 @@ export interface RegisterPayload extends LoginPayload {
 export interface AuthResponse {
   token: string;
   user: Omit<User, 'password'>;
+}
+
+export interface BookingPayload {
+  roomId: string;
+  roomCount: number;
+  adultCount: number;
+  childCount: number;
 }

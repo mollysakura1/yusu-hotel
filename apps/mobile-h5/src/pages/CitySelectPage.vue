@@ -1,6 +1,6 @@
 <template>
   <main class="mobile-page bg-white min-h-screen">
-    <header class="sticky top-0 z-20 border-b border-slate-100 bg-white px-4 py-3">
+    <header class="sticky top-0 z-20 border-b border-slate-100 bg-white px-4 py-3 md:px-6 lg:px-8">
       <div class="flex items-center gap-3">
         <button class="h-8 w-8 flex items-center justify-center rounded-full bg-slate-100" @click="goBack">
           <span class="i-carbon-chevron-left text-slate-700"></span>
@@ -18,7 +18,7 @@
       </div>
     </header>
 
-    <section class="px-4 pt-4">
+    <section class="px-4 pt-4 md:px-6 lg:px-8">
       <div class="text-xs text-slate-400">定位 / 最近访问</div>
       <div class="mt-3 flex flex-wrap gap-3">
         <button
@@ -39,9 +39,9 @@
       </div>
     </section>
 
-    <section class="px-4 pt-5">
+    <section class="px-4 pt-5 md:px-6 lg:px-8">
       <div class="text-xs text-slate-400">热门城市</div>
-      <div class="mt-3 grid grid-cols-4 gap-3">
+      <div class="mt-3 grid grid-cols-4 gap-3 md:grid-cols-6 lg:grid-cols-8">
         <button
           v-for="city in hotCities"
           :key="city"
@@ -53,7 +53,7 @@
       </div>
     </section>
 
-    <section class="relative px-4 pb-6 pt-6">
+    <section class="relative px-4 pb-6 pt-6 md:px-6 lg:px-8">
       <div class="pr-6">
         <div v-for="group in filteredGroups" :key="group.letter" :id="`city-${group.letter}`" class="mb-6">
           <div class="sticky top-14 z-10 bg-white py-2 text-base font-700 text-slate-900">

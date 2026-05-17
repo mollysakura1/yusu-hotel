@@ -1,7 +1,7 @@
 <template>
-  <main class="mobile-page px-4 pb-26 pt-4">
+  <main class="mobile-page px-4 pb-26 pt-4 md:px-6 lg:px-8 lg:pb-10">
     <section
-      class="relative overflow-hidden rounded-6 px-4 pb-28 pt-5 text-white shadow-card"
+      class="relative overflow-hidden rounded-6 px-4 pb-28 pt-5 text-white shadow-card md:px-6 lg:pb-16 lg:pt-8"
       style="background: linear-gradient(135deg, #0b4db3 0%, #1569e8 52%, #3598ff 100%)"
     >
       <div class="text-sm font-500 text-white/78">易宿酒店预订平台</div>
@@ -9,13 +9,13 @@
         高效订酒店，价格更透明
       </h1>
       <p class="mt-2 max-w-72 text-sm leading-6 text-white/90">
-        蓝白清爽视觉、紧凑信息编排，围绕出行决策优化搜索和筛选体验。
+        围绕出行决策优化搜索和筛选体验，让预订链路更清晰、响应更轻快。
       </p>
       <div class="absolute -right-5 top-4 h-28 w-28 rounded-full bg-white/8 blur-2xl"></div>
       <div class="absolute -left-6 bottom-3 h-20 w-20 rounded-full bg-#8dc4ff/14 blur-2xl"></div>
     </section>
 
-    <div class="-mt-20">
+    <div class="-mt-20 lg:-mt-10">
       <SearchPanel />
     </div>
 
@@ -24,11 +24,11 @@
         <h2 class="text-base font-700 text-slate-900">今日精选 Banner</h2>
         <span class="text-xs text-brand-500">灵感推荐</span>
       </div>
-      <div class="flex gap-3 overflow-x-auto pb-2">
+      <div class="flex gap-3 overflow-x-auto pb-2 md:grid md:grid-cols-2 md:overflow-visible lg:grid-cols-4">
         <button
           v-for="banner in banners"
           :key="banner.id"
-          class="relative h-36 w-72 shrink-0 overflow-hidden rounded-5 text-left shadow-card"
+          class="relative h-36 w-72 shrink-0 overflow-hidden rounded-5 text-left shadow-card md:w-full"
           @click="goDetail(banner.hotelId)"
         >
           <img :src="banner.image" class="h-full w-full object-cover" />
@@ -72,7 +72,7 @@
           <img :src="hotel.coverImage" class="h-16 w-16 rounded-4 object-cover" />
           <div class="min-w-0 flex-1">
             <div class="truncate text-sm font-600 text-slate-900">{{ hotel.nameCn }}</div>
-            <div class="text-xs text-slate-500">{{ hotel.businessArea }} · ¥{{ hotel.priceStart }} 起</div>
+            <div class="text-xs text-slate-500">{{ hotel.businessArea }} · ￥{{ hotel.priceStart }} 起</div>
           </div>
         </div>
       </div>
@@ -100,7 +100,17 @@ onMounted(async () => {
 });
 
 const goDetail = (hotelId: string) => {
-  router.push({ name: 'hotel-detail', params: { id: hotelId } });
+  router.push({
+    name: 'hotel-detail',
+    params: { id: hotelId },
+    query: {
+      checkIn: searchStore.searchForm.checkIn,
+      checkOut: searchStore.searchForm.checkOut,
+      roomCount: String(searchStore.searchForm.roomCount || 1),
+      adultCount: String(searchStore.searchForm.adultCount || 1),
+      childCount: String(searchStore.searchForm.childCount || 0)
+    }
+  });
 };
 
 const quickSearch = (keyword: string) => {
@@ -111,6 +121,9 @@ const quickSearch = (keyword: string) => {
       keyword,
       checkIn: searchStore.searchForm.checkIn,
       checkOut: searchStore.searchForm.checkOut,
+      roomCount: String(searchStore.searchForm.roomCount || 1),
+      adultCount: String(searchStore.searchForm.adultCount || 1),
+      childCount: String(searchStore.searchForm.childCount || 0),
       tags: searchStore.searchForm.tags?.join(','),
       minPrice: searchStore.searchForm.minPrice?.toString(),
       maxPrice: searchStore.searchForm.maxPrice?.toString(),

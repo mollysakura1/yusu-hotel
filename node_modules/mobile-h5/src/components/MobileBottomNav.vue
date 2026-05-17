@@ -1,5 +1,5 @@
 <template>
-  <nav class="fixed bottom-0 left-0 right-0 z-30">
+  <nav class="fixed bottom-0 left-0 right-0 z-30 lg:hidden">
     <div class="mx-auto flex max-w-[430px] items-center justify-around border-t border-slate-100 bg-white/96 px-4 py-2 safe-bottom backdrop-blur">
       <button
         v-for="item in items"

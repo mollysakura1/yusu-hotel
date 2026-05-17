@@ -28,6 +28,24 @@ body {
   background: linear-gradient(180deg, rgba(244, 248, 255, 0.55) 0%, #fbfcff 100%);
 }
 
+@media (min-width: 768px) {
+  .mobile-page {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-page {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .mobile-page {
+    max-width: 1120px;
+  }
+}
+
 .safe-bottom {
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
 }

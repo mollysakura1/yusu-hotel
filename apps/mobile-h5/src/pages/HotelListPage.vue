@@ -1,6 +1,6 @@
 <template>
-  <main class="mobile-page px-4 pb-8 pt-0">
-    <section class="sticky top-0 z-20 bg-#f7fbff/92 px-0 pt-2 backdrop-blur">
+  <main class="mobile-page px-4 pb-8 pt-0 md:px-6 lg:px-8 lg:py-6">
+    <section class="sticky top-0 z-20 bg-#f7fbff/92 px-0 pt-2 backdrop-blur lg:top-4 lg:rounded-5">
       <div class="rounded-5 bg-white/96 p-3 shadow-card">
         <div class="flex items-center gap-3">
           <button
@@ -8,7 +8,16 @@
             @click="router.back()"
             aria-label="返回"
           >
-            <svg viewBox="0 0 24 24" class="h-4.5 w-4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              class="h-4.5 w-4.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
               <path d="M15 18l-6-6 6-6" />
             </svg>
           </button>
@@ -19,8 +28,21 @@
               <button class="font-700 text-slate-900" @click="showDateDialog = true">{{ monthDayText }}</button>
               <span class="text-xs font-600 text-brand-500">{{ nights }}晚</span>
             </div>
+            <button class="mt-2 flex w-full items-center justify-between rounded-3 bg-white px-3 py-2 text-xs shadow-[inset_0_0_0_1px_rgba(148,163,184,0.08)]" @click="guestVisible = true">
+              <span class="font-600 text-slate-700">{{ guestSummary }}</span>
+              <span class="i-carbon-chevron-right text-slate-400"></span>
+            </button>
             <div class="mt-2 flex w-full items-center gap-2 rounded-3 bg-white px-3 py-2 text-xs text-slate-400 shadow-[inset_0_0_0_1px_rgba(148,163,184,0.08)]">
-              <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                class="h-3.5 w-3.5 shrink-0"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
                 <circle cx="11" cy="11" r="7" />
                 <path d="M20 20l-3.5-3.5" />
               </svg>
@@ -38,7 +60,16 @@
             @click="openMapTip"
             aria-label="地图"
           >
-            <svg viewBox="0 0 24 24" class="h-4.5 w-4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              class="h-4.5 w-4.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
               <path d="M9.5 4.5L4.5 6.5v13l5-2 5 2 5-2v-13l-5 2-5-2z" />
               <path d="M9.5 4.5v13" />
               <path d="M14.5 6.5v13" />
@@ -47,15 +78,15 @@
         </div>
 
         <div class="mt-3 flex gap-2 overflow-x-auto pb-1">
-        <button
-          v-for="sort in sortOptions"
-          :key="sort.value"
-          class="shrink-0 rounded-full px-3 py-1.5 text-xs"
-          :class="activeQuickKey === sort.value ? 'bg-brand-500 text-white' : 'bg-slate-50 text-slate-600'"
-          @click="changeSort(sort.value)"
-        >
-          {{ sort.label }}
-        </button>
+          <button
+            v-for="sort in sortOptions"
+            :key="sort.value"
+            class="shrink-0 rounded-full px-3 py-1.5 text-xs"
+            :class="activeQuickKey === sort.value ? 'bg-brand-500 text-white' : 'bg-slate-50 text-slate-600'"
+            @click="changeSort(sort.value)"
+          >
+            {{ sort.label }}
+          </button>
         </div>
         <div class="mt-3 flex gap-2 overflow-x-auto pb-1">
           <button
@@ -90,17 +121,19 @@
       </div>
     </section>
 
-    <section class="mt-4 space-y-3">
+    <section class="mt-4 grid gap-3 md:grid-cols-2 lg:gap-4 xl:grid-cols-3">
       <template v-if="loading && !hotels.length">
         <SkeletonHotelCard v-for="item in 4" :key="item" />
       </template>
-      <div v-else-if="error" class="rounded-5 bg-white p-6 text-center text-sm text-red-500 shadow-card">{{ error }}</div>
-      <div v-else-if="!hotels.length" class="rounded-5 bg-white p-6 text-center text-sm text-slate-500 shadow-card">暂无符合条件的酒店，换个筛选试试</div>
+      <div v-else-if="error" class="rounded-5 bg-white p-6 text-center text-sm text-red-500 shadow-card md:col-span-2 xl:col-span-3">{{ error }}</div>
+      <div v-else-if="!hotels.length" class="rounded-5 bg-white p-6 text-center text-sm text-slate-500 shadow-card md:col-span-2 xl:col-span-3">
+        暂无符合条件的酒店，换个筛选试试
+      </div>
       <HotelCard v-for="hotel in hotels" :key="hotel.id" :hotel="hotel" />
-      <div v-if="loading && hotels.length" class="space-y-3">
+      <div v-if="loading && hotels.length" class="contents">
         <SkeletonHotelCard v-for="item in 2" :key="`more-${item}`" />
       </div>
-      <div v-if="finished && hotels.length" class="py-4 text-center text-xs text-slate-400">已加载全部酒店</div>
+      <div v-if="finished && hotels.length" class="py-4 text-center text-xs text-slate-400 md:col-span-2 xl:col-span-3">已加载全部酒店</div>
     </section>
 
     <DateRangeModal
@@ -108,6 +141,12 @@
       :model-value="{ checkIn: query.checkIn, checkOut: query.checkOut }"
       @close="showDateDialog = false"
       @confirm="applyDates"
+    />
+    <GuestCountModal
+      :visible="guestVisible"
+      :model-value="guestValue"
+      @close="guestVisible = false"
+      @confirm="applyGuest"
     />
   </main>
 </template>
@@ -119,6 +158,7 @@ import { HOTEL_SORT_OPTIONS } from '@shared/constants';
 import { calcNights, normalizeDateRange } from '@shared/utils';
 import type { SearchQuery, SortType } from '@shared/types';
 import DateRangeModal from '@/components/DateRangeModal.vue';
+import GuestCountModal from '@/components/GuestCountModal.vue';
 import HotelCard from '@/components/HotelCard.vue';
 import SkeletonHotelCard from '@/components/SkeletonHotelCard.vue';
 import { useInfiniteHotels } from '@/composables/useInfiniteHotels';
@@ -126,6 +166,7 @@ import { useInfiniteHotels } from '@/composables/useInfiniteHotels';
 const route = useRoute();
 const router = useRouter();
 const showDateDialog = ref(false);
+const guestVisible = ref(false);
 type QuickKey = SortType | 'breakfast' | 'freeCancel' | 'nearMetro' | 'highStar';
 const activeQuickKey = ref<QuickKey>('recommended');
 
@@ -134,6 +175,9 @@ const query = reactive<SearchQuery>({
   keyword: String(route.query.keyword || ''),
   checkIn: String(route.query.checkIn || ''),
   checkOut: String(route.query.checkOut || ''),
+  roomCount: Number(route.query.roomCount || 1),
+  adultCount: Number(route.query.adultCount || 1),
+  childCount: Number(route.query.childCount || 0),
   tags: route.query.tags ? String(route.query.tags).split(',') : [],
   minPrice: route.query.minPrice ? Number(route.query.minPrice) : undefined,
   maxPrice: route.query.maxPrice ? Number(route.query.maxPrice) : undefined,
@@ -145,6 +189,12 @@ const query = reactive<SearchQuery>({
 });
 
 const nights = computed(() => calcNights(query.checkIn, query.checkOut));
+const guestSummary = computed(() => `${query.roomCount || 1}间房 ${query.adultCount || 1}成人 ${query.childCount || 0}儿童`);
+const guestValue = computed(() => ({
+  roomCount: query.roomCount || 1,
+  adultCount: query.adultCount || 1,
+  childCount: query.childCount || 0
+}));
 const monthDayText = computed(() => {
   if (!query.checkIn || !query.checkOut) return '请选择日期';
   return `${query.checkIn.slice(5)} - ${query.checkOut.slice(5)}`;
@@ -168,6 +218,9 @@ watch(
       keyword: String(route.query.keyword || ''),
       checkIn: String(route.query.checkIn || ''),
       checkOut: String(route.query.checkOut || ''),
+      roomCount: Number(route.query.roomCount || 1),
+      adultCount: Number(route.query.adultCount || 1),
+      childCount: Number(route.query.childCount || 0),
       tags: route.query.tags ? String(route.query.tags).split(',') : [],
       minPrice: route.query.minPrice ? Number(route.query.minPrice) : undefined,
       maxPrice: route.query.maxPrice ? Number(route.query.maxPrice) : undefined,
@@ -191,6 +244,9 @@ const updateQuery = () => {
       keyword: query.keyword,
       checkIn: query.checkIn,
       checkOut: query.checkOut,
+      roomCount: String(query.roomCount || 1),
+      adultCount: String(query.adultCount || 1),
+      childCount: String(query.childCount || 0),
       tags: query.tags?.join(','),
       starList: query.starList?.join(','),
       minPrice: query.minPrice?.toString(),
@@ -234,6 +290,14 @@ const applyDates = (value: { checkIn: string; checkOut: string }) => {
   updateQuery();
 };
 
+const applyGuest = (value: { roomCount: number; adultCount: number; childCount: number }) => {
+  query.roomCount = value.roomCount;
+  query.adultCount = value.adultCount;
+  query.childCount = value.childCount;
+  guestVisible.value = false;
+  updateQuery();
+};
+
 const applyKeyword = () => {
   updateQuery();
 };
@@ -243,6 +307,6 @@ const goCitySelect = () => {
 };
 
 const openMapTip = () => {
-  window.alert('地图找酒店功能可作为下一步扩展，目前可先通过城市、日期和关键词筛选。');
+  window.alert('地图找酒店功能可作为下一步扩展，目前可先通过城市、日期、人数和关键词筛选。');
 };
 </script>

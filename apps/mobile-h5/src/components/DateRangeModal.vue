@@ -4,7 +4,7 @@
     class="fixed inset-0 z-50 flex items-end justify-center bg-black/35"
     @click.self="$emit('close')"
   >
-    <div class="max-h-[86vh] w-full max-w-[430px] overflow-hidden rounded-t-7 bg-white">
+    <div class="max-h-[86vh] w-full max-w-[430px] overflow-hidden rounded-t-7 bg-white md:max-w-[640px]">
       <div class="border-b border-slate-100 px-4 pt-4">
         <div class="flex items-center justify-between">
           <button class="h-8 w-8 flex items-center justify-center text-slate-400" @click="$emit('close')" aria-label="关闭">

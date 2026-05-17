@@ -17,13 +17,21 @@
       <input
         v-model="form.keyword"
         class="w-full bg-transparent text-sm text-slate-900 outline-none"
-        placeholder="地点 / 品牌 / 酒店名"
+        placeholder="位置 / 品牌 / 酒店名"
       />
     </div>
 
     <div class="mt-3">
       <DateRangePicker v-model="dateRange" />
     </div>
+
+    <button class="mt-3 w-full rounded-4 bg-slate-50 px-3 py-3 text-left" @click="guestVisible = true">
+      <div class="mb-1 text-xs text-slate-400">间数人数</div>
+      <div class="flex items-center justify-between">
+        <div class="text-sm font-700 text-slate-900">{{ guestSummary }}</div>
+        <span class="i-carbon-chevron-right text-slate-400"></span>
+      </div>
+    </button>
 
     <div class="mt-3 rounded-4 bg-slate-50 p-3">
       <div class="mb-2 flex items-center justify-between">
@@ -63,18 +71,27 @@
       查询酒店
     </button>
   </section>
+
+  <GuestCountModal
+    :visible="guestVisible"
+    :model-value="guestValue"
+    @close="guestVisible = false"
+    @confirm="applyGuest"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed, reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { HOTEL_TAG_OPTIONS } from '@shared/constants';
 import { useSearchStore } from '@/stores/search';
 import DateRangePicker from './DateRangePicker.vue';
 import FilterChips from './FilterChips.vue';
+import GuestCountModal from './GuestCountModal.vue';
 
 const router = useRouter();
 const searchStore = useSearchStore();
+const guestVisible = ref(false);
 const form = reactive({ ...searchStore.searchForm });
 
 const tags = computed({
@@ -91,6 +108,16 @@ const dateRange = computed({
     form.checkOut = value.checkOut;
   }
 });
+
+const guestValue = computed(() => ({
+  roomCount: form.roomCount || 1,
+  adultCount: form.adultCount || 1,
+  childCount: form.childCount || 0
+}));
+
+const guestSummary = computed(
+  () => `${form.roomCount || 1}间房 ${form.adultCount || 1}成人 ${form.childCount || 0}儿童`
+);
 
 const tagOptions = HOTEL_TAG_OPTIONS;
 
@@ -126,6 +153,9 @@ const submit = () => {
       keyword: form.keyword,
       checkIn: form.checkIn,
       checkOut: form.checkOut,
+      roomCount: String(form.roomCount || 1),
+      adultCount: String(form.adultCount || 1),
+      childCount: String(form.childCount || 0),
       tags: form.tags?.join(','),
       minPrice: form.minPrice?.toString(),
       maxPrice: form.maxPrice?.toString(),
@@ -136,6 +166,13 @@ const submit = () => {
       sortBy: form.sortBy
     }
   });
+};
+
+const applyGuest = (value: { roomCount: number; adultCount: number; childCount: number }) => {
+  form.roomCount = value.roomCount;
+  form.adultCount = value.adultCount;
+  form.childCount = value.childCount;
+  guestVisible.value = false;
 };
 
 const goCitySelect = () => {
