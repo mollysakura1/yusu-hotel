@@ -20,9 +20,9 @@
 - 新增移动端城市切换功能
 - 新增城市选择页，支持热门城市、字母分组城市列表、最近访问城市
 - 为热门城市补充多组酒店 Mock 数据，切换城市后可直接查询酒店
-- 新增移动端底栏导航，仅在首页和“我的”页面展示
-- 新增“我的”页面，支持展示头像、用户名、收藏数和浏览历史
-- 新增“设置”页面，支持切换深色模式
+- 新增移动端底栏导航，仅在首页和”我的”页面展示
+- 新增”我的”页面，支持展示头像、用户名、收藏数和浏览历史
+- 新增”设置”页面，支持切换深色模式
 - 新增酒店列表页紧凑搜索头，整合城市、日期、关键词搜索
 - 新增自定义日期弹窗组件，替换原生日期输入
 - 修复入住日期与离店日期耦合逻辑，避免出现入住晚于离店的 bug
@@ -34,12 +34,46 @@
 - 修复酒店列表页排序/快捷筛选高亮状态问题，8 个按钮改为互斥单选
 - 优化酒店列表页顶部按钮与搜索头视觉，替换为更精致的 SVG 图标
 
+## 第三次更新
+
+- 新增一键启动命令 `npm run dev`，使用 concurrently 同时启动 Mock API、移动端 H5 和管理后台
+- 新增多分辨率响应式适配，支持手机、平板、桌面端：
+  - `.mobile-page` 容器分四档最大宽度（430px / 720px / 960px / 1120px）
+  - 所有页面内边距响应式递增（`px-4` → `md:px-6` → `lg:px-8`）
+  - 酒店列表页从单列变为多列网格（`md:grid-cols-2`、`xl:grid-cols-3`）
+  - 首页 Banner 从横滑卡片变为响应式网格（`md:grid-cols-2`、`lg:grid-cols-4`）
+  - 热门城市和功能入口列数自适应（`md:grid-cols-6`、`lg:grid-cols-8`）
+  - 酒店卡片图片和详情页 Banner 高度随屏幕放大
+  - 弹窗宽度响应式适配（BookingConfirmModal、DateRangeModal、GuestCountModal）
+  - 大屏隐藏底部导航栏和悬浮底栏，详情页新增页面内操作区替代
+  - 列表页搜索栏大屏增加圆角和间距
+- 新增间数/人数全链路支持：
+  - 新增 `GuestCountModal` 组件，支持房间数、成人、儿童选择
+  - 搜索面板新增间数/人数入口
+  - 酒店列表页新增间数/人数显示和修改功能
+  - 酒店卡片跳转详情时透传 roomCount、adultCount、childCount
+  - 搜索条件和搜索历史同步携带间数/人数参数
+- 酒店详情页功能大幅增强：
+  - Banner 轮播改为 translateX + transition 控制，支持自动播放（3.5s）、左右箭头、指示器
+  - 房型列表新增加减选房数和立即订购按钮，受库存上限约束
+  - 新增预订确认弹窗（`BookingConfirmModal`），包含住客姓名、手机号、总价计算、积分预估
+  - 预订成功后实时更新酒店数据和库存，页面展示预订结果消息
+  - 新增同城推荐酒店模块，采用虚拟列表渲染（200 条数据仅渲染可视区域）
+  - 新增页面内操作区块（大屏可见），替代移动端悬浮底栏
+- 新增 Mock API 预订接口 `POST /api/hotels/:id/book`，支持库存扣减和价格重算
+- 新增共享类型 `BookingPayload`
+- 刘海屏安全区适配，底部操作元素使用 `env(safe-area-inset-bottom)` 防遮挡
+- 优化详情页底栏定位方式，从 `left-0 right-0` 改为 `left-1/2 -translate-x-1/2` 居中
+
 ## 项目亮点
 
 - 单仓多端结构：`apps/mobile-h5`、`apps/admin-pc`、`server/mock-api`、`packages/shared`
 - Vue 3 + Vite + TypeScript + Pinia + Vue Router 工程化落地
+- 一键启动三个模块（`npm run dev`），基于 concurrently 并行运行
 - 移动端首页、酒店列表、详情页完整串联，支持 query 条件透传
+- 移动端多分辨率响应式适配，覆盖手机、平板、桌面端
 - 酒店列表支持分页加载、Skeleton、图片懒加载、排序与快捷筛选
+- 酒店详情页支持 Banner 自动轮播、房型选订、预订确认、同城推荐虚拟列表
 - 后台支持登录注册、角色权限控制、商户酒店录入、管理员审核、超级管理员系统管理
 - Mock API 内置真实感业务数据模型，覆盖酒店、房型、审核、用户、角色、菜单、日志
 - Mock API 覆盖多城市酒店数据，支持城市切换后的前台查询
@@ -50,7 +84,7 @@
 - 前端：Vue 3、Vite、TypeScript、Vue Router、Pinia、Axios
 - 样式：UnoCSS（移动端）、Element Plus（后台端）
 - 服务：Node.js、Express
-- 工具：dayjs、ESLint、Prettier
+- 工具：dayjs、ESLint、Prettier、concurrently
 
 ## 目录结构
 
@@ -73,17 +107,21 @@ vue3-hotel
 
 - 酒店查询首页
 - 城市切换页
-- 酒店列表页
-- 酒店详情页
+- 酒店列表页（支持多列网格布局）
+- 酒店详情页（Banner 轮播、房型选订、预订确认、同城推荐）
 - Banner 推荐
 - 搜索历史
 - 最近浏览
 - 收藏功能
 - 价格趋势提示
+- 间数/人数选择
+- 预订确认弹窗
 - 我的页面
 - 设置页面
 - 深色模式
 - 自定义日期弹窗
+- 多分辨率响应式适配
+- 刘海屏安全区适配
 
 ### 管理后台
 
@@ -126,28 +164,40 @@ vue3-hotel
 - 用户管理中的权限来自角色配置，角色调整后用户权限同步更新
 - 入住日期与离店日期强耦合，离店日期必须晚于入住日期
 - 酒店列表页顶部 8 个快捷按钮为互斥状态，同一时间仅允许一个高亮生效
+- 间数/人数通过路由 query 全链路透传（首页 → 列表 → 详情）
+- 预订时库存实时扣减，库存不足时禁止下单
+- 移动端多分辨率适配采用 UnoCSS 断点前缀（md / lg / xl），容器宽度分四档
+- 大屏隐藏底部导航和悬浮底栏，改用页面内操作区
 
 ## 启动方式
 
 ### 1. 安装依赖
 
+```bash
 npm install
+```
 
-### 2. 启动 Mock API
+### 2. 一键启动全部模块
 
-npm run dev:server
+```bash
+npm run dev
+```
 
-服务地址：[http://localhost:3000](http://localhost:3000)
+使用 `concurrently` 并行启动三个模块，终端中按颜色区分输出：
 
-### 3. 启动移动端 H5
-npm run dev:mobile
+| 模块 | 颜色 | 地址 |
+|------|------|------|
+| Mock API | 蓝色 | [http://localhost:3000](http://localhost:3000) |
+| 移动端 H5 | 绿色 | [http://localhost:5173](http://localhost:5173) |
+| PC 管理后台 | 品红 | [http://localhost:5174](http://localhost:5174) |
 
-访问地址：[http://localhost:5173](http://localhost:5173)
+### 3. 单独启动某个模块（可选）
 
-### 4. 启动 PC 管理后台
-npm run dev:admin
-
-访问地址：[http://localhost:5174](http://localhost:5174)
+```bash
+npm run dev:server   # 仅启动 Mock API
+npm run dev:mobile   # 仅启动移动端 H5
+npm run dev:admin    # 仅启动 PC 管理后台
+```
 
 ## 演示账号
 
